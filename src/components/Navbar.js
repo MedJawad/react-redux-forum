@@ -17,7 +17,7 @@ function NavBar(){
         dispatch(searchFilter(event.target.value));
     }
         return (
-            <Navbar bg="primary" variant="dark">
+            <Navbar bg="info" variant="dark">
                 <Navbar.Brand href="#home">ForUs</Navbar.Brand>
                 <Form className="col-sm-8 m-auto">
                     <FormControl type="text" placeholder="Search In ForUs" className="mr-sm-2 text-center" onChange={handleChange}/>
