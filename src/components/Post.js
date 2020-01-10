@@ -5,9 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 class Post extends React.Component {
   render() {
     return (
-        <Card bg="info" text="white" style={{ width: '50rem' , margin: 'auto' }}>
+        <Card bg="info" text="white" style={{ width: '50rem' , margin: '30px auto 30px auto' }}>
         <Card.Header as="h5">
-            username <span>g/idiots</span>
+            Group <sub>Posted By <b>username</b> 8h ago</sub>
         </Card.Header>
         <Card.Body>
           <Card.Title>{this.props.title}</Card.Title>
