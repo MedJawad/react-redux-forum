@@ -3,11 +3,37 @@ import { Card, Button, Dropdown, Col, Row, Image } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class Post extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.getTimeDiff = this.getTimeDiff.bind(this);
+
+  }
+
+  getTimeDiff = () => {
+    let postTime = new Date(this.props.time);
+    let now = new Date();
+    let milliseconds = now - postTime ;
+    let seconds = milliseconds / (1000)
+
+    if(seconds<60){ return Math.floor(seconds)+"s";} //Seconds
+    if(seconds< 60*60 ){ return Math.floor(seconds/(60) )+"min";} //Minutes
+    if(seconds< 60*60*24){   return Math.floor(seconds / (60*60))+"h";} //Hours
+    if(seconds< 60*60*24*30){    return Math.floor(seconds / (60*60*24))+"day";} //Days
+    if(seconds< 60*60*24*30*12){  return Math.floor(seconds / (60*60*24*30))+"months";} //Months
+    return Math.floor(seconds / (60)/12)+"Years"; // Years
+  }
+
+
   render() {
     return (
         <Card bg="info" text="white" style={{ width: '50rem' , margin: '30px auto 30px auto' }}>
         <Card.Header as="h5">
-            Group <sub>Posted By <b>username</b> 8h ago</sub>
+            {this.props.groupName?"g/"+this.props.groupName:"u/"+this.props.username} 
+            <sub>
+            {" "} Posted By <b>{this.props.username}</b>{" "}
+              {this.getTimeDiff()} ago
+            </sub>
         </Card.Header>
         <Card.Body>
           <Card.Title>{this.props.title}</Card.Title>
