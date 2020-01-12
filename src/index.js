@@ -3,12 +3,22 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { createStore } from "redux";
 import { Provider } from "react-redux";
 import allReducers from "./reducers/index";
+import thunkMiddleware from 'redux-thunk'
+import { createStore, applyMiddleware } from 'redux'
+import { selectPost, fetchComments } from './actions'
 
-const store = createStore(allReducers);
+const store = createStore(
+    allReducers,
+    applyMiddleware(
+    thunkMiddleware, // lets us dispatch() functions
+  )
+  );
 
+// store.dispatch(selectPost(2))
+// store.dispatch(fetchComments(2)).then(() => console.log(store.getState()))
+store.dispatch(fetchComments(1)).then(() => console.log(store.getState()))
 
 
 

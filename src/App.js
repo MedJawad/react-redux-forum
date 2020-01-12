@@ -3,23 +3,38 @@ import Navbar from './components/Navbar';
 import Main from './components/Main';
 import Footer from './components/Footer';
 import "bootstrap/dist/css/bootstrap.min.css";
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+
 import {library} from "@fortawesome/fontawesome-svg-core";
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { faThumbsUp, faShare , faComment } from '@fortawesome/free-solid-svg-icons';
+import LoginPage from './components/LoginPage';
+import { useSelector } from 'react-redux';
 
 library.add(fab, faThumbsUp, faShare,faComment);
 
 function App() {
   return (
-    <div className="App">
-        {/* <Navbar />
-        <Main />
-        test2 
-         */}
-         <Navbar />
-        <Main />
-        <Footer />
-    </div>
+    <Router>
+        <div className="App">
+          <Switch>
+            {useSelector(state => state.loginUser.id||null)!=null
+            ?''
+            :<Route path="/" exact component={LoginPage} />}
+            <Route path="/Home">
+              <Navbar />
+              <Main />
+              <Footer />
+            </Route>
+          </Switch>
+        </div>
+    </Router>
   );
 }
 

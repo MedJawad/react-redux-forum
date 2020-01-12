@@ -23,8 +23,7 @@ function NavBar(){
                     <FormControl type="text" placeholder="Search In ForUs" className="mr-sm-2 text-center" onChange={handleChange}/>
                 </Form>
                 <Form inline className="ml-auto">
-                <Button variant="outline-light"  className="mr-sm-2">Sign In</Button>
-                <Button variant="light">Sign Up</Button>
+                    <Button variant="outline-light"  className="mr-sm-2">Logout</Button>
                 </Form>
             </Navbar>
         );

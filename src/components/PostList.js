@@ -19,7 +19,11 @@ function PostList() {
 
   //USE EFFECT WITH EMPTY ARRAY IN SECOND ARGUMENT MEANS THAT IT ONLY TRIGGERS ON FIRST RENDER ; EQUIVALENT TO COMPONENTDIDMOUNT
   useEffect(() => {
-    fetch("http://localhost:8080/ForUs/Posts/All")
+    fetch("http://localhost:8080/ForUs/Posts/All") // fetch ALL Posts
+    //fetch("http://localhost:8080/ForUs/Posts/user?id=getLoggedUserIdFromStore") // fetch ALL Posts of this User
+    //fetch("http://localhost:8080/ForUs/Posts/All") // fetch ALL Posts this user should see
+
+    
       .then(results => results.json())
       .then(data => {
         let newPosts = [];
@@ -30,7 +34,7 @@ function PostList() {
               votes: post.voteCount || 0,
               title: post.title || "",
               text: post.text || "",
-              time : post.date,
+              time : post.date||"",
               user : post.user,
               group : post.group,
             }
