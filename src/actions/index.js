@@ -1,3 +1,5 @@
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 export const searchFilter = value => {
   return {
@@ -86,6 +88,7 @@ export function receiveComments(post, json) {
     // It passes the dispatch method as an argument to the function,
     // thus making it able to dispatch actions itself.
     return function(dispatch) {
+      if(!session) { session =cookies.get('sessionId'); console.log("session empty",cookies.getAll()) }
       // First dispatch: the app state is updated to inform
       // that the API call is starting.
       dispatch(requestUser(user))
@@ -114,6 +117,7 @@ export function receiveComments(post, json) {
           // We can dispatch many times!
           // Here, we update the app state with the results of the API call.
           console.log(json)
+          cookies.set("sessionId",json.sessionId);
           dispatch(receiveUser(user, json))
         }
         )
