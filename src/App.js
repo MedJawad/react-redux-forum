@@ -15,6 +15,7 @@ import {library} from "@fortawesome/fontawesome-svg-core";
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { faThumbsUp, faShare , faComment } from '@fortawesome/free-solid-svg-icons';
 import LoginPage from './components/LoginPage';
+import { Home } from "./components/Home";
 import { useSelector } from 'react-redux';
 
 library.add(fab, faThumbsUp, faShare,faComment);
@@ -24,14 +25,8 @@ function App() {
     <Router>
         <div className="App">
           <Switch>
-            {useSelector(state => state.loginUser.id||null)!=null
-            ?''
-            :<Route path="/" exact component={LoginPage} />}
-            <Route path="/Home">
-              <Navbar />
-              <Main />
-              <Footer />
-            </Route>
+            <Route path="/Login" exact component={LoginPage} />
+            <Route path="/" component={Home} />
           </Switch>
         </div>
     </Router>

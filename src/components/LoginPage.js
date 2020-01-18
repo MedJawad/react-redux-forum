@@ -1,45 +1,63 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../login.css";
 import { Form, FormControl, Button, Card } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { handleLogin } from "../actions";
+import { useDispatch, useSelector } from "react-redux";
+import { handleLogin, fetchUser } from "../actions";
+import { Redirect } from "react-router-dom";
 
 function LoginPage() {
+
+  //IN THE FIRST RENDER LETS CHECK FROM THE SERVER IF A USER IS ALREADY LOGGED IN
+  useEffect(() => {
+    dispatch(fetchUser({username : null,password:null,remember:null}));
+    return () => {
+    };
+  },[]); 
+  
   const [formInfos, setFormInfos] = useState({
     username: "",
     password: "",
     remember: false
   });
   const dispatch = useDispatch();
-
+  
   function handleChange(event) {
     const name = event.target.name;
     if (name==="remember") {
-        setFormInfos({
-            username : formInfos.username,
-            password : formInfos.password,
-            remember: !formInfos.remember
-        });
+      setFormInfos({
+        username : formInfos.username,
+        password : formInfos.password,
+        remember: !formInfos.remember
+      });
     } else if(name==="username") {
-        setFormInfos({
-            username : event.target.value,
-            password : formInfos.password,
-            remember: formInfos.remember
-        });
+      setFormInfos({
+        username : event.target.value,
+        password : formInfos.password,
+        remember: formInfos.remember
+      });
     }else if(name==="password"){
-        setFormInfos({
-            username : formInfos.username ,
-            password : event.target.value,
-            remember: formInfos.remember
+      setFormInfos({
+        username : formInfos.username ,
+        password : event.target.value,
+        remember: formInfos.remember
         });
+      }
     }
-  }
-  function handleSubmit(event) {
-    event.preventDefault();
-    dispatch(handleLogin(formInfos));
-  }
-  return (
-    <div className="container" id="LoginContainer">
+
+    let user = useSelector(state => state.loginUser);
+    
+    function handleSubmit(event) {
+      event.preventDefault();
+      dispatch(fetchUser(formInfos,user.sessionId));
+    }
+    let current = user.currentUser || null;
+    if( current ){
+      // alert("User Found "+user);
+      return (<Redirect to='/' />);
+    }
+
+    return (
+      <div className="container" id="LoginContainer">
       <div className="d-flex justify-content-center h-100">
         <Card
           className="bg-dark text-white"
