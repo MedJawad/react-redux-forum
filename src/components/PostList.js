@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { increment } from "../actions";
+import { useSelector } from "react-redux";
 import Post from "./Post";
 
-function PostList() {
+function  PostList() {
   const [posts, setPosts] = useState([
     {
       id: 0,
@@ -39,15 +38,15 @@ function PostList() {
               group : post.group,
             }
           ]);
+          return newPosts;
         }); // end of data.map
 
         setPosts(posts.concat(newPosts));
       });
+         // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const filter = useSelector(state => state.search);
-
-  const dispatch = useDispatch();
 
   return (
     <div className="container">

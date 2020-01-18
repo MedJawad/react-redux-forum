@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../login.css";
 import { Form, FormControl, Button, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { handleLogin, fetchUser } from "../actions";
+import { fetchUser } from "../actions";
 import { Redirect } from "react-router-dom";
 
 function LoginPage() {
@@ -12,6 +12,7 @@ function LoginPage() {
     dispatch(fetchUser({username : null,password:null,remember:null}));
     return () => {
     };
+       // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]); 
   
   const [formInfos, setFormInfos] = useState({

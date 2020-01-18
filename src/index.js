@@ -7,7 +7,6 @@ import { Provider } from "react-redux";
 import allReducers from "./reducers/index";
 import thunkMiddleware from "redux-thunk";
 import { createStore, applyMiddleware, compose } from "redux";
-import { selectPost, fetchComments, fetchUser } from "./actions";
 
 // const composedEnhancers = compose(
 //   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
@@ -24,11 +23,11 @@ const store = createStore(allReducers, undefined,
         thunkMiddleware
       )
     ));
-const infos = {
-    username: "jawad",
-    password: "jawad",
-    remember : false
-}
+// const infos = {
+//     username: "jawad",
+//     password: "jawad",
+//     remember : false
+// }
 // store.dispatch(selectPost(2))
 // store.dispatch(fetchComments(2)).then(() => console.log(store.getState()))
 // store.dispatch(fetchComments(1)).then(() => console.log(store.getState()))

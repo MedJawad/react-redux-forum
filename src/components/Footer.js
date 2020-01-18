@@ -11,7 +11,7 @@ class Footer extends React.Component {
             <Card className="text-center absolute-bottom">
 
                 <Card.Body>
-                    <Card.Title>🤷‍♂️ You've reached the end of current articles 🤷‍♂️</Card.Title>
+                    <Card.Title><span role="img" aria-label="Oups">🤷‍♂️</span> You've reached the end of current articles <span role="img" aria-label="Oups">🤷‍♂️</span></Card.Title>
                     <Card.Text>
                         Follow More Rooms To get To see more amazing stuff on ForUs.
                     </Card.Text>

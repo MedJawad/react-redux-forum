@@ -1,14 +1,11 @@
 import React from 'react';
 import {
     Navbar , 
-    Nav ,
     Form,
     FormControl,
     Button    } from 'react-bootstrap';
-    import { useSelector , useDispatch } from "react-redux";
+    import { useDispatch } from "react-redux";
 import { searchFilter , logout } from '../actions';
-import { Redirect } from 'react-router-dom';
-
 
 function NavBar(){
 

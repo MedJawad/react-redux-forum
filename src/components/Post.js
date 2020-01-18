@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Button, Dropdown, Col, Row, Image } from "react-bootstrap";
+import { Card, Button, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class Post extends React.Component {
