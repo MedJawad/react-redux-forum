@@ -4,6 +4,7 @@ import { Form, FormControl, Button, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../actions";
 import { Redirect } from "react-router-dom";
+import { BeatLoader } from "react-spinners";
 
 function LoginPage() {
 
@@ -52,19 +53,32 @@ function LoginPage() {
       dispatch(fetchUser(formInfos,user.sessionId));
     }
     let current = user.currentUser || null;
+    let isFetching = useSelector(state => state.loginUser.isFetching);
+    const beatloaderCSS ={
+      width:"50%",
+      margin : "20% auto auto auto;",
+      textAlign : "center"
+    }
+
     if( current ){
       // alert("User Found "+user);
       return (<Redirect to='/' />);
     }
-
     return (
-      <div className="container" id="LoginContainer">
-      <div className="d-flex justify-content-center h-100">
+      isFetching 
+        ?(<React.Fragment>
+          <span>.</span>
+          <BeatLoader css={beatloaderCSS} color={"#11aabc"} size={50} loading={isFetching} margin={"auto"}/>
+          </React.Fragment>
+          )
+        :(
+        <div className="container" id="LoginContainer">
+        <div className="d-flex justify-content-center h-100">
         <Card
-          className="bg-dark text-white"
-          style={{ margin: "30px auto 30px auto" }}
+        className="bg-dark text-white"
+        style={{ height: "300px",margin : "50px auto" }}
         >
-          <Card.Header>
+        <Card.Header>
             <h3>Sign In !</h3>
           </Card.Header>
           <Card.Body>
@@ -76,7 +90,7 @@ function LoginPage() {
                   name="username"
                   value={formInfos.username|| ''}
                   onChange={handleChange}
-                />
+                  />
               </Form.Group>
               <Form.Group controlId="formGroupPassword">
                 <Form.Control
@@ -85,7 +99,7 @@ function LoginPage() {
                   name="password"
                   value={formInfos.password|| ''}
                   onChange={handleChange}
-                />
+                  />
               </Form.Group>
               <div className="row align-items-center remember">
                 <FormControl
@@ -93,7 +107,7 @@ function LoginPage() {
                   name="remember"
                   checked={formInfos.remember}
                   onChange={handleChange}
-                />
+                  />
                 Remember Me
               </div>
               <Button className="btn float-right login_btn" type="submit">
@@ -102,9 +116,10 @@ function LoginPage() {
             </Form>
           </Card.Body>
         </Card>
-      </div>
-    </div>
-  );
-}
+        </div>
+        </div>
+        )
+        );
+      }
 
 export default LoginPage;

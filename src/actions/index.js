@@ -19,6 +19,7 @@ export const handleLogin = formInfos => {
   };
 };
 export const logout = () => {
+  cookies.remove("sessionId");
   return {type: "LOGOUT_USER",}
 }
 
@@ -88,7 +89,7 @@ export function receiveComments(post, json) {
     // It passes the dispatch method as an argument to the function,
     // thus making it able to dispatch actions itself.
     return function(dispatch) {
-      if(!session) { session =cookies.get('sessionId'); console.log("session empty",cookies.getAll()) }
+      if(!session) { session = cookies.get('sessionId'); }
       // First dispatch: the app state is updated to inform
       // that the API call is starting.
       dispatch(requestUser(user))
@@ -117,7 +118,7 @@ export function receiveComments(post, json) {
           // We can dispatch many times!
           // Here, we update the app state with the results of the API call.
           console.log(json)
-          cookies.set("sessionId",json.sessionId);
+          json && (json.sessionId && cookies.set("sessionId",json.sessionId));
           dispatch(receiveUser(user, json))
         }
         )
