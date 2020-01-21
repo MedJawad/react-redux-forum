@@ -68,7 +68,7 @@ function LoginPage() {
       isFetching 
         ?(<React.Fragment>
           <span>.</span>
-          <BeatLoader css={beatloaderCSS} color={"#11aabc"} size={50} loading={isFetching} margin={"auto"}/>
+          <BeatLoader css={beatloaderCSS} color={"#11aabc"} size={50} loading={isFetching}/>
           </React.Fragment>
           )
         :(

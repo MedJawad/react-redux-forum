@@ -11,11 +11,11 @@ import {
 
 import {library} from "@fortawesome/fontawesome-svg-core";
 import { fab } from '@fortawesome/free-brands-svg-icons';
-import { faThumbsUp, faShare , faComment } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp, faShare , faComment , faUserAlt } from '@fortawesome/free-solid-svg-icons';
 import LoginPage from './components/LoginPage';
 import { Home } from "./components/Home";
 
-library.add(fab, faThumbsUp, faShare,faComment);
+library.add(fab, faThumbsUp, faShare,faComment,faUserAlt);
 
 function App() {
   return (
