@@ -2,27 +2,31 @@ function comments(
     state = {
       isFetching: false,
       didInvalidate: false,
-      items: []
+      items: [],
+      lastUpdated : null
     },
     action
   ) {
     switch (action.type) {
       case 'INVALIDATE_POST':
-        return Object.assign({}, state, {
-          didInvalidate: true
-        })
+        return {
+          ...state,
+          didInvalidate : true,
+        };
       case 'REQUEST_COMMENTS':
-        return Object.assign({}, state, {
-          isFetching: true,
-          didInvalidate: false
-        })
+        return {
+          ...state,
+          isFetching : true,
+          didInvalidate : false,
+        }
       case 'RECEIVE_COMMENTS':
-        return Object.assign({}, state, {
+        return {
+          ...state,
           isFetching: false,
           didInvalidate: false,
           items: action.comments,
           lastUpdated: action.receivedAt
-        })
+        };
       default:
         return state
     }
@@ -32,9 +36,14 @@ function comments(
       case 'INVALIDATE_POST':
       case 'RECEIVE_COMMENTS':
       case 'REQUEST_COMMENTS':
-        return Object.assign({}, state, {
-          [action.post]: comments(state[action.post], action)
-        })
+        const newState = comments(state,action);
+        return {
+          ...state,
+          ...newState,
+        };
+        // Object.assign({}, state, {
+        //   [action.post]: comments(state[action.post], action)
+        // })
       default:
         return state
     }

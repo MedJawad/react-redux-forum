@@ -1,72 +1,51 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Post from "./Post";
+import { fetchPosts } from "../actions";
+import { BeatLoader } from "react-spinners";
 
 function  PostList() {
-  const [posts, setPosts] = useState([
-    {
-      id: 0,
-      votes: 500,
-      title: "dummy title 1",
-      text: "dummy text 1 dummy text 1 dummy text 1 dummy text 1 dummy text 1",
-      time : "2020-01-11T00:30:25",
-      user : {id : 1 , username : "jawad"},
-      group : {id : 1 ,name: "Science"},
 
-    }
-  ]);
+  const dispatch = useDispatch();
+  let user = useSelector(state => state.loginUser);
 
-  //USE EFFECT WITH EMPTY ARRAY IN SECOND ARGUMENT MEANS THAT IT ONLY TRIGGERS ON FIRST RENDER ; EQUIVALENT TO COMPONENTDIDMOUNT
   useEffect(() => {
-    fetch("http://localhost:8080/ForUs/Posts/All") // fetch ALL Posts
-    //fetch("http://localhost:8080/ForUs/Posts/user?id=getLoggedUserIdFromStore") // fetch ALL Posts of this User
-    //fetch("http://localhost:8080/ForUs/Posts/All") // fetch ALL Posts this user should see
 
+
+    dispatch(fetchPosts(user.sessionId));
     
-      .then(results => results.json())
-      .then(data => {
-        let newPosts = [];
-        data.map(post => {
-          newPosts = newPosts.concat([
-            {
-              id: post.id,
-              votes: post.voteCount || 0,
-              title: post.title || "",
-              text: post.text || "",
-              time : post.date||"",
-              user : post.user,
-              group : post.group,
-            }
-          ]);
-          return newPosts;
-        }); // end of data.map
-
-        setPosts(posts.concat(newPosts));
-      });
-         // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const posts = useSelector(state => state.loadPosts.posts);
   const filter = useSelector(state => state.search);
-
+  const isFetching = useSelector(state => state.loadPosts.isFetching);
   return (
     <div className="container">
-      {posts.map(post => {
+      {
+      (isFetching || !posts)
+      ?<BeatLoader size={40} color={"#11aabc"} margin={"20px"} loading={isFetching} />
+      :(
+        posts.map(post => {
         if (("" + post.title).includes(filter)) {
           return (
             <Post
               key={post.id}
-              votes={post.votes}
+              id={post.id}
+              votes={post.voteCount}
               title={post.title}
               text={post.text}
-              time={post.time}
+              time={post.date}
               username={post.user.username||""}
               groupName={post.group?post.group.name:""}
-            />
+              />
+              
           );
         } else {
           return "";
         }
-      })}
+      }))
+      }
     </div>
   );
 }

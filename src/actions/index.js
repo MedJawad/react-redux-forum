@@ -23,6 +23,45 @@ export const logout = () => {
   return {type: "LOGOUT_USER",}
 }
 
+export function requestPosts() {
+  return {
+    type: 'REQUEST_POSTS',
+  }
+}
+
+export function receivePosts(json) {
+    return {
+      type: "RECEIVE_POSTS",
+      posts: json,
+      receivedAt: Date.now()
+    }
+  }
+  export function fetchPosts(session) {
+
+    return function(dispatch) {
+      if(!session) { session = cookies.get('sessionId'); }
+
+      dispatch(requestPosts())
+
+      return fetch(`http://localhost:8080/ForUs/Posts/user${session  ? "?sessionId="+session : "" }`)
+        .then(
+          response => {
+            //console.log(response);
+            if(response.ok) return response.json() ;
+            return null;
+          },
+          error => console.log('An error occurred.', error)
+        )
+        .then(json => {
+
+          //console.log(json)
+          // json && (json.sessionId && cookies.set("sessionId",json.sessionId));
+          dispatch(receivePosts(json))
+        }
+        )
+    }
+  }
+
 export function selectPost(post) {
   return {
     type: "SELECT_POST",
@@ -48,36 +87,29 @@ export function receiveComments(post, json) {
     return {
       type: "RECEIVE_COMMENTS",
       post,
-      comments: json.map(child => child.data),
+      comments: json,
       receivedAt: Date.now()
     }
   }
 
-  export function fetchComments(post) {
-    // Thunk middleware knows how to handle functions.
-    // It passes the dispatch method as an argument to the function,
-    // thus making it able to dispatch actions itself.
+  export function fetchComments(post,session) {
+
     return function(dispatch) {
-      // First dispatch: the app state is updated to inform
-      // that the API call is starting.
+
       dispatch(requestComments(post))
-      // The function called by the thunk middleware can return a value,
-      // that is passed on as the return value of the dispatch method.
-      // In this case, we return a promise to wait for.
-      // This is not required by thunk middleware, but it is convenient for us.
-      return fetch(`http://localhost:8080/ForUs/Comments/Post?id=${post}`)
+
+      return fetch(`http://localhost:8080/ForUs/Comments/Post?id=${post}${session  ? "&sessionId="+session : "" }`)
         .then(
-          response => response.json(),
-          // Do not use catch, because that will also catch
-          // any errors in the dispatch and resulting render,
-          // causing a loop of 'Unexpected batch number' errors.
-          // https://github.com/facebook/react/issues/6895
+          response => {
+            //console.log(response);
+            if(response.ok) return response.json() ;
+            return null;
+          },
+
           error => console.log('An error occurred.', error)
         )
         .then(json => {
-          // We can dispatch many times!
-          // Here, we update the app state with the results of the API call.
-          console.log(json)
+
           dispatch(receiveComments(post, json))
         }
         )
@@ -104,7 +136,7 @@ export function receiveComments(post, json) {
       }${session  ? "&sessionId="+session : "" }`)
         .then(
           response => {
-            console.log(response);
+            //console.log(response);
             if(response.ok) return response.json() ;
             return null;
           },
@@ -117,7 +149,7 @@ export function receiveComments(post, json) {
         .then(json => {
           // We can dispatch many times!
           // Here, we update the app state with the results of the API call.
-          console.log(json)
+          //console.log(json)
           json && (json.sessionId && cookies.set("sessionId",json.sessionId));
           dispatch(receiveUser(user, json))
         }

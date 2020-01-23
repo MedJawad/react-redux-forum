@@ -14,9 +14,10 @@ function user(
         didInvalidate: true
       });
     case "REQUEST_USER":
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isFetching: true
-      });
+      };
     case "RECEIVE_USER":
       return Object.assign({}, state, {
         sessionId : action.infos?action.infos.sessionId:"",
@@ -39,7 +40,12 @@ export function loginUser(state = {}, action) {
     case "INVALIDATE_USER":
     case "RECEIVE_USER":
     case "REQUEST_USER":
-      return Object.assign({}, state, user(state[action.user], action));
+      const newstate = user(state, action);
+      return {
+        ...state,
+        ...newstate,
+      };
+      //Object.assign({}, state, user(state[action.user], action));
     case "LOGOUT_USER":
       return Object.assign({}, state, user(state[action.user], action));
     default:
