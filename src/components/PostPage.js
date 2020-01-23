@@ -25,7 +25,7 @@ const PostPage = (props) => {
               title={post.title}
               text={post.text}
               time={post.date}
-              username={post.user?post.user.username:""}
+              user={post.user}
               groupName={post.group?post.group.name:""}
               />
               <CommentSection postId={post.id} />

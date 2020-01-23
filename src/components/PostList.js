@@ -36,7 +36,7 @@ function  PostList() {
               title={post.title}
               text={post.text}
               time={post.date}
-              username={post.user.username||""}
+              user={post.user}
               groupName={post.group?post.group.name:""}
               />
               

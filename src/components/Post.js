@@ -47,9 +47,9 @@ class Post extends React.Component {
           <Card.Header as="h5">
             {this.props.groupName
               ? "g/" + this.props.groupName
-              : "u/" + this.props.username}
+              : "u/" + this.props.user.username}
             <Link
-              to={`/user/${this.props.id}`}
+              to={`/user/${this.props.user.id}`}
               style={{
                 color: "white",
                 fontWeight: "bold",
@@ -58,7 +58,7 @@ class Post extends React.Component {
             >
               <sub>
                 {" "}
-                Posted By <b>{this.props.username}</b> {this.getTimeDiff()} ago
+                Posted By <b>{this.props.user.username}</b> {this.getTimeDiff()} ago
               </sub>
             </Link>
           </Card.Header>
